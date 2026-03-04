@@ -10,6 +10,9 @@ inputs:
   latest_major:
     description: if tag latest major version
     required: false
+  workdir:
+    description: workdir
+    required: true
 runs:
   using: "composite"
   steps:
@@ -21,3 +24,4 @@ runs:
       run: |
         . $GITHUB_ACTION_PATH/release.sh
       shell: bash
+      working-directory: ${{ inputs.workdir }}

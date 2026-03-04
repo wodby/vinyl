@@ -23,7 +23,7 @@
 
 ## Docker Images
 
-❗For better reliability we release images with stability tags (`wodby/vinyl:6-X.X.X`) which correspond to [git tags](https://github.com/wodby/vinyl/releases). We strongly recommend using images only with stability tags. 
+❗For better reliability we release images with stability tags (`wodby/vinyl:8-X.X.X`) which correspond to [git tags](https://github.com/wodby/vinyl/releases). We strongly recommend using images only with stability tags. 
 
 Overview:
 
@@ -37,7 +37,8 @@ All images built for `linux/amd64` and `linux/arm64`
 
 Supported tags and respective `Dockerfile` links:
 
-- `6.0`, `6`, `latest` [_(Dockerfile)_](https://github.com/wodby/vinyl/tree/master/Dockerfile)
+- `8.0`, `8`, `latest` [_(Dockerfile)_](https://github.com/wodby/vinyl/tree/master/8/Dockerfile)
+- `6.0`, `6` [_(Dockerfile)_](https://github.com/wodby/vinyl/tree/master/6/Dockerfile)
 
 ## Environment Variables
 
@@ -181,19 +182,20 @@ VARNISH_STORAGE_CONDITION='beresp.http.x-cache-bin = "secondary"'
 
 ## Installed Modules
 
-| Module                                                                                      | Version | Imported |
-|---------------------------------------------------------------------------------------------|---------|----------|
-| [geoip](https://github.com/varnish/libvmod-geoip)                                           | 1.0.3   | ✓        |
-| [digest](https://github.com/varnish/libvmod-digest)                                         | 1.0.3   |          |
-| [cookie](https://github.com/varnish/varnish-modules/blob/master/docs/vmod_cookie.rst)       | latest  |          |
-| [vsthrottle](https://github.com/varnish/varnish-modules/blob/master/docs/vmod_cookie.rst)   | latest  |          |
-| [header](https://github.com/varnish/varnish-modules/blob/master/docs/vmod_header.rst)       | latest  |          |
-| [saintmode](https://github.com/varnish/varnish-modules/blob/master/docs/vmod_saintmode.rst) | latest  |          |
-| [softpurge](https://github.com/varnish/varnish-modules/blob/master/docs/vmod_softpurge.rst) | latest  |          |
-| [tcp](https://github.com/varnish/varnish-modules/blob/master/docs/vmod_tcp.rst)             | latest  |          |
-| [var](https://github.com/varnish/varnish-modules/blob/master/docs/vmod_var.rst)             | latest  |          |
-| [xkey](https://github.com/varnish/varnish-modules/blob/master/docs/vmod_xkey.rst)           | latest  |          |
-| bodyaccess                                                                                  | latest  |          |
+| Module       | Varnish 6.0 | Varnish 8.0 |
+|--------------|-------------|-------------|
+| [geoip]      | 1.0.3       |             |
+| [geoip2]     |             | latest      |
+| [digest]     | 1.0.3       | 1.0.3       |
+| [cookie]     | 6.0 latest  | 0.27.0      |
+| [vsthrottle] | 6.0 latest  | 0.27.0      |
+| [header]     | 6.0 latest  | 0.27.0      |
+| [saintmode]  | 6.0 latest  | 0.27.0      |
+| [softpurge]  | 6.0 latest  | 0.27.0      |
+| [tcp]        | 6.0 latest  | 0.27.0      |
+| [var]        | 6.0 latest  | 0.27.0      |
+| [xkey]       | 6.0 latest  | 0.27.0      |
+| bodyaccess   | 6.0 latest  | 0.27.0      |
 
 Modules can be imported as `$VARNISH_IMPORT_MODULES=xkey,softpurge`.
 
@@ -332,3 +334,15 @@ default params values:
 ## Deployment
 
 Deploy Vinyl container to your own server via [![Wodby](https://www.google.com/s2/favicons?domain=wodby.com) Wodby](https://wodby.com/stacks/vinyl).
+
+[geoip]: https://github.com/varnish/libvmod-geoip
+[geoip2]: https://github.com/varnishcache-friends/libvmod-geoip2
+[digest]: https://github.com/varnish/libvmod-digest
+[cookie]: https://github.com/varnish/varnish-modules/blob/master/docs/vmod_cookie.rst
+[vsthrottle]: https://github.com/varnish/varnish-modules/blob/master/docs/vmod_cookie.rst
+[header]: https://github.com/varnish/varnish-modules/blob/master/docs/vmod_header.rst
+[saintmode]: https://github.com/varnish/varnish-modules/blob/master/docs/vmod_saintmode.rst
+[softpurge]: https://github.com/varnish/varnish-modules/blob/master/docs/vmod_softpurge.rst
+[tcp]: https://github.com/varnish/varnish-modules/blob/master/docs/vmod_tcp.rst
+[var]: https://github.com/varnish/varnish-modules/blob/master/docs/vmod_var.rst
+[xkey]: https://github.com/varnish/varnish-modules/blob/master/docs/vmod_xkey.rst
