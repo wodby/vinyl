@@ -31,7 +31,7 @@ Overview:
 - Base image: [wodby/alpine](https://github.com/wodby/alpine)
 - [GitHub actions builds](https://github.com/wodby/vinyl/actions) 
 - [Docker Hub](https://hub.docker.com/r/wodby/vinyl)
-- [Helm chart](https://github.com/wodby/charts/tree/main/varnish) 
+- [Helm chart](https://github.com/wodby/charts/tree/main/vinyl) 
 
 All images built for `linux/amd64` and `linux/arm64`
 
@@ -225,7 +225,7 @@ If we see CloudFlare country code header we use it instead.
 
 ### Currency
 
-We use [the country code](#geoip) to identify the currency and pass it to a backend in `X-Currency` header. You can optionally uniquify cache per currency by setting `$VARNISH_CACHE_PER_CURRENCY=1`. 
+We use [the country code](#geoip) to identify the currencxy and pass it to a backend in `X-Currency` header. You can optionally uniquify cache per currency by setting `$VARNISH_CACHE_PER_CURRENCY=1`. 
 
 We use data from [IBAN](https://www.iban.com/currency-codes) to identify which country uses which currency, currently only USD and EUR supported.
 
