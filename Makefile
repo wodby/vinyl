@@ -1,7 +1,7 @@
 -include env.mk
 
-VARNISH_VER ?= 6.0.16
-VARNISH_VER_MINOR = $(shell echo "${VARNISH_VER}" | grep -oE '^[0-9]+\.[0-9]+')
+VINYL_VER ?= 6.0.16
+VINYL_VER_MINOR = $(shell echo "${VINYL_VER}" | grep -oE '^[0-9]+\.[0-9]+')
 
 ALPINE_VER ?= 3.22
 
@@ -13,10 +13,10 @@ else
     BASE_IMAGE_TAG := $(ALPINE_VER)-$(BASE_IMAGE_STABILITY_TAG)
 endif
 
-TAG ?= $(VARNISH_VER_MINOR)
+TAG ?= $(VINYL_VER_MINOR)
 
-REPO = wodby/varnish
-NAME = varnish-$(VARNISH_VER_MINOR)
+REPO = wodby/vinyl
+NAME = vinyl-$(VINYL_VER_MINOR)
 
 IMAGETOOLS_TAG ?= $(TAG)
 
@@ -31,19 +31,19 @@ default: build
 build:
 	docker build -t $(REPO):$(TAG) \
 	    --build-arg BASE_IMAGE_TAG=$(BASE_IMAGE_TAG) \
-	    --build-arg VARNISH_VER=$(VARNISH_VER) ./
+	    --build-arg VINYL_VER=$(VINYL_VER) ./
 
 buildx-build:
 	docker buildx build --platform $(PLATFORM) -t $(REPO):$(TAG) \
 	    --build-arg BASE_IMAGE_TAG=$(BASE_IMAGE_TAG) \
-	    --build-arg VARNISH_VER=$(VARNISH_VER) \
+	    --build-arg VINYL_VER=$(VINYL_VER) \
 	    --load \
 	    ./
 
 buildx-push:
 	docker buildx build --push --platform $(PLATFORM) -t $(REPO):$(TAG) \
 	    --build-arg BASE_IMAGE_TAG=$(BASE_IMAGE_TAG) \
-	    --build-arg VARNISH_VER=$(VARNISH_VER) \
+	    --build-arg VINYL_VER=$(VINYL_VER) \
 	    ./
 
 buildx-imagetools-create:

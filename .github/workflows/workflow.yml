@@ -10,10 +10,10 @@ on:
 
 env:
   BASE_IMAGE_STABILITY_TAG: 2.19.0
-  VARNISH60: '6.0.16'
+  VINYL60: '6.0.16'
 
 jobs:
-  varnish60-build:
+  vinyl60-build:
     strategy:
       matrix:
         arch:
@@ -33,16 +33,16 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: build and push
         env:
-          VARNISH_VER: ${{ env.VARNISH60 }}
+          VINYL_VER: ${{ env.VINYL60 }}
           ARCH: ${{ matrix.arch }}
         run: |
           make
           make test
           make push
-  varnish60-push:
+  vinyl60-push:
     runs-on: ubuntu-latest
     needs:
-      - varnish60-build
+      - vinyl60-build
     steps:
       - uses: actions/checkout@v6
       - uses: docker/login-action@v3
@@ -51,6 +51,6 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - uses: ./.github/actions
         with:
-          version: ${{ env.VARNISH60 }}
+          version: ${{ env.VINYL60 }}
           latest: true
           latest_major: true

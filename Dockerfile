@@ -2,11 +2,11 @@ ARG BASE_IMAGE_TAG
 
 FROM wodby/alpine:${BASE_IMAGE_TAG}
 
-ARG VARNISH_VER
+ARG VINYL_VER
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 
-ENV VARNISH_VER="${VARNISH_VER}"
+ENV VINYL_VER="${VINYL_VER}"
 
 COPY patches /tmp/patches/
 COPY GeoIP.dat.gz /usr/share/GeoIP/
@@ -53,12 +53,12 @@ RUN set -ex; \
         rsync \
         xz-dev; \
     \
-    varnish_url="http://varnish-cache.org/_downloads/varnish-${VARNISH_VER}.tgz"; \
+    varnish_url="https://vinyl-cache.org/downloads/varnish-${VINYL_VER}.tgz"; \
     wget -qO- "${varnish_url}" | tar xz -C /tmp/; \
     cd /tmp/varnish-*; \
     mkdir -p /tmp/pkg; \
     # Patch from alpine varnish package repository. \
-    for i in /tmp/patches/"${VARNISH_VER:0:1}"/*.patch; do patch -p1 -i "${i}"; done; \
+    for i in /tmp/patches/"${VINYL_VER:0:1}"/*.patch; do patch -p1 -i "${i}"; done; \
     \
     ./configure \
 		--prefix=/usr \

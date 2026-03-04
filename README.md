@@ -1,8 +1,8 @@
-# Varnish Docker Container Image
+# Vinyl Cache (Varnish Cache) Docker Container Image
 
-[![Build Status](https://github.com/wodby/varnish/workflows/Build%20docker%20image/badge.svg)](https://github.com/wodby/varnish/actions)
-[![Docker Pulls](https://img.shields.io/docker/pulls/wodby/varnish.svg)](https://hub.docker.com/r/wodby/varnish)
-[![Docker Stars](https://img.shields.io/docker/stars/wodby/varnish.svg)](https://hub.docker.com/r/wodby/varnish)
+[![Build Status](https://github.com/wodby/varnish/workflows/Build%20docker%20image/badge.svg)](https://github.com/wodby/vinyl/actions)
+[![Docker Pulls](https://img.shields.io/docker/pulls/wodby/varnish.svg)](https://hub.docker.com/r/wodby/vinyl)
+[![Docker Stars](https://img.shields.io/docker/stars/wodby/varnish.svg)](https://hub.docker.com/r/wodby/vinyl)
 
 - [Docker images](#docker-images)
 - [Environment variables](#environment-variables)
@@ -23,14 +23,15 @@
 
 ## Docker Images
 
-❗For better reliability we release images with stability tags (`wodby/varnish:6-X.X.X`) which correspond to [git tags](https://github.com/wodby/varnish/releases). We strongly recommend using images only with stability tags. 
+❗For better reliability we release images with stability tags (`wodby/vinyl:6-X.X.X`) which correspond to [git tags](https://github.com/wodby/varnish/releases). We strongly recommend using images only with stability tags. 
 
 Overview:
 
-- All images based on Alpine Linux
+- All images are based on Alpine Linux
 - Base image: [wodby/alpine](https://github.com/wodby/alpine)
-- [GitHub actions builds](https://github.com/wodby/varnish/actions) 
-- [Docker Hub](https://hub.docker.com/r/wodby/varnish)
+- [GitHub actions builds](https://github.com/wodby/vinyl/actions) 
+- [Docker Hub](https://hub.docker.com/r/wodby/vinyl)
+- [Helm chart](https://github.com/wodby/charts/tree/main/varnish) 
 
 All images built for `linux/amd64` and `linux/arm64`
 
@@ -181,7 +182,7 @@ VARNISH_STORAGE_CONDITION='beresp.http.x-cache-bin = "secondary"'
 ## Installed Modules
 
 | Module                                                                                      | Version | Imported |
-| ------                                                                                      | ------- | -------- |
+|---------------------------------------------------------------------------------------------|---------|----------|
 | [geoip](https://github.com/varnish/libvmod-geoip)                                           | 1.0.3   | ✓        |
 | [digest](https://github.com/varnish/libvmod-digest)                                         | 1.0.2   |          |
 | [cookie](https://github.com/varnish/varnish-modules/blob/master/docs/vmod_cookie.rst)       | latest  |          |
@@ -252,8 +253,8 @@ AD|AT|BE|CY|EE|FI|FR|GF|TF|DE|GP|GR|VA|IE|IT|LV|LT|LU|MT|MQ|YT|MC|ME|NL|PT|RE|BL
 - Query params (`$VARNISH_STRIP_PARAMS`) stripped unless `$VARNISH_KEEP_ALL_PARAMS` is set
 - Cookies (`$VARNISH_STRIP_COOKIES`) stripped unless `$VARNISH_KEEP_ALL_COOKIES` is set
 - Hashes and trailing `?` stripped from URL before passing to backend
-- By default cache mobile devices is identical. You can separate it by setting `$VARNISH_MOBILE_SEPARATE_CASH` or completely disable by setting `$VARNISH_MOBILE_DISABLE_CASH`. Regex `$VARNISH_MOBILE_USER_AGENT` used to identify mobile devices by `User-Agent` header 
-- Set one of the following headers from backend to disable caching for a page: 
+- By default, cache mobile devices is identical. You can separate it by setting `$VARNISH_MOBILE_SEPARATE_CASH` or completely disable by setting `$VARNISH_MOBILE_DISABLE_CASH`. Regex `$VARNISH_MOBILE_USER_AGENT` used to identify mobile devices by `User-Agent` header 
+- Set one of the following headers from the backend to disable caching for a page: 
     ```
     X-VC-Cacheable: NO
     Cache-control: private
@@ -262,7 +263,7 @@ AD|AT|BE|CY|EE|FI|FR|GF|TF|DE|GP|GR|VA|IE|IT|LV|LT|LU|MT|MQ|YT|MC|ME|NL|PT|RE|BL
 - Set `X-VC-Debug` to show cache hashes and pass through header `X-VC-DebugMessage`
 - `BigPipe` supported
 - Secondary storage can be defined via `$VARNISH_STORAGE_CONDITION`
-- `./vchealthz` is a liveness endpoint with 204 response code
+- `./vchealthz` is a liveness endpoint with 204 response codes
 
 ## Config Presets
 
@@ -330,4 +331,4 @@ default params values:
 
 ## Deployment
 
-Deploy Varnish container to your own server via [![Wodby](https://www.google.com/s2/favicons?domain=wodby.com) Wodby](https://wodby.com/stacks/varnish).
+Deploy Vinyl container to your own server via [![Wodby](https://www.google.com/s2/favicons?domain=wodby.com) Wodby](https://wodby.com/stacks/vinyl).
