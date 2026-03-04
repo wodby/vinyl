@@ -134,7 +134,7 @@ RUN set -ex; \
     make install; \
     make check; \
     \
-    libvmod_digest_ver="1.0.2"; \
+    libvmod_digest_ver="1.0.3"; \
     libvmod_digest_url="https://github.com/varnish/libvmod-digest/archive/libvmod-digest-${libvmod_digest_ver}.tar.gz"; \
     wget -qO- "${libvmod_digest_url}" | tar xz -C /tmp/; \
     cd /tmp/libvmod-digest-*; \
