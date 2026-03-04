@@ -1,8 +1,8 @@
 # Vinyl Cache (Varnish Cache) Docker Container Image
 
-[![Build Status](https://github.com/wodby/varnish/workflows/Build%20docker%20image/badge.svg)](https://github.com/wodby/vinyl/actions)
-[![Docker Pulls](https://img.shields.io/docker/pulls/wodby/varnish.svg)](https://hub.docker.com/r/wodby/vinyl)
-[![Docker Stars](https://img.shields.io/docker/stars/wodby/varnish.svg)](https://hub.docker.com/r/wodby/vinyl)
+[![Build Status](https://github.com/wodby/vinyl/workflows/Build%20docker%20image/badge.svg)](https://github.com/wodby/vinyl/actions)
+[![Docker Pulls](https://img.shields.io/docker/pulls/wodby/vinyl.svg)](https://hub.docker.com/r/wodby/vinyl)
+[![Docker Stars](https://img.shields.io/docker/stars/wodby/vinyl.svg)](https://hub.docker.com/r/wodby/vinyl)
 
 - [Docker images](#docker-images)
 - [Environment variables](#environment-variables)
@@ -23,7 +23,7 @@
 
 ## Docker Images
 
-❗For better reliability we release images with stability tags (`wodby/vinyl:6-X.X.X`) which correspond to [git tags](https://github.com/wodby/varnish/releases). We strongly recommend using images only with stability tags. 
+❗For better reliability we release images with stability tags (`wodby/vinyl:6-X.X.X`) which correspond to [git tags](https://github.com/wodby/vinyl/releases). We strongly recommend using images only with stability tags. 
 
 Overview:
 
@@ -37,7 +37,7 @@ All images built for `linux/amd64` and `linux/arm64`
 
 Supported tags and respective `Dockerfile` links:
 
-- `6.0`, `6`, `latest` [_(Dockerfile)_](https://github.com/wodby/varnish/tree/master/Dockerfile)
+- `6.0`, `6`, `latest` [_(Dockerfile)_](https://github.com/wodby/vinyl/tree/master/Dockerfile)
 
 ## Environment Variables
 
