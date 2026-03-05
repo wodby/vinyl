@@ -69,7 +69,7 @@ RUN set -ex; \
 		--without-jemalloc; \
     \
     make -j "$(nproc)"; \
-#    make check; \
+    make check; \
     make DESTDIR=/tmp/pkg install; \
     \
     mkdir -p /usr/share/varnish; \
@@ -128,7 +128,7 @@ RUN set -ex; \
     ./configure; \
     make; \
     make install; \
-#    make check; \
+    make check; \
     \
     libvmod_digest_ver="1.0.3"; \
     libvmod_digest_url="https://github.com/varnish/libvmod-digest/archive/libvmod-digest-${libvmod_digest_ver}.tar.gz"; \
@@ -138,7 +138,7 @@ RUN set -ex; \
     ./configure; \
     make; \
     make install; \
-#    make check; \
+    make check; \
     \
     varnish_modules_ver="0.27.0"; \
     wget -qO- "https://github.com/varnish/varnish-modules/releases/download/${varnish_modules_ver}/varnish-modules-${varnish_modules_ver}.tar.gz" | tar xz -C /tmp/; \
