@@ -333,7 +333,7 @@ default params values:
 
 ## Deployment
 
-Deploy Vinyl container to your own server via [![Wodby](https://www.google.com/s2/favicons?domain=wodby.com) Wodby](https://wodby.com/stacks/vinyl).
+Deploy Vinyl container to your own server via [![Wodby](https://www.google.com/s2/favicons?domain=wodby.com) Wodby](https://wodby.com/services/vinyl).
 
 [geoip]: https://github.com/varnish/libvmod-geoip
 [geoip2]: https://github.com/varnishcache-friends/libvmod-geoip2
