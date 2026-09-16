@@ -35,6 +35,7 @@ jobs:
   build:
     needs: setup
     strategy:
+      fail-fast: false
       matrix:
         vinyl: ${{ fromJson(needs.setup.outputs.vinyl-versions) }}
         arch:
@@ -49,6 +50,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Build and test
+        id: build-image
         env:
           VINYL_VER: ${{ matrix.vinyl.version }}
           ARCH: ${{ matrix.arch }}
@@ -56,6 +58,14 @@ jobs:
         run: |
           make
           make test
+          echo "image=$(make --no-print-directory -s image-ref)" >> "$GITHUB_OUTPUT"
+      - name: Scan image
+        if: github.event_name == 'push'
+        uses: ./.github/actions/scout
+        with:
+          image: local://${{ steps.build-image.outputs.image }}
+          dockerhub-user: ${{ secrets.DOCKER_USERNAME }}
+          dockerhub-password: ${{ secrets.DOCKER_PASSWORD }}
       - uses: docker/login-action@v3
         if: github.event_name == 'push'
         with:
