@@ -10,7 +10,9 @@ ENV VINYL_VER="${VINYL_VER}"
 
 COPY GeoLite2-Country.mmdb.gz /usr/share/GeoIP/
 
+# Upgrade inherited packages even when their existing versions satisfy dependencies.
 RUN set -ex; \
+    apk upgrade --no-cache; \
     \
     addgroup -g 1000 -S varnish; \
 	adduser -u 1000 -D -S -s /bin/bash -G varnish varnish; \
