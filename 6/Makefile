@@ -1,5 +1,8 @@
 -include env.mk
 
+# Accept legacy build arguments during the image revision transition.
+BASE_IMAGE_REVISION ?= $(BASE_IMAGE_STABILITY_TAG)
+
 VINYL_VER ?= 6.0.18
 VINYL_VER_MINOR = $(shell echo "${VINYL_VER}" | grep -oE '^[0-9]+\.[0-9]+')
 
@@ -7,10 +10,10 @@ ALPINE_VER ?= 3.22
 
 PLATFORM ?= linux/arm64
 
-ifeq ($(BASE_IMAGE_STABILITY_TAG),)
+ifeq ($(BASE_IMAGE_REVISION),)
     BASE_IMAGE_TAG := $(ALPINE_VER)
 else
-    BASE_IMAGE_TAG := $(ALPINE_VER)-$(BASE_IMAGE_STABILITY_TAG)
+    BASE_IMAGE_TAG := $(ALPINE_VER)-$(BASE_IMAGE_REVISION)
 endif
 
 TAG ?= $(VINYL_VER_MINOR)
