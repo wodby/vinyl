@@ -26,23 +26,26 @@ endif
 
 .PHONY: build buildx-build buildx-push test test-clean push shell run start stop logs clean release
 
+# Resolve the same pinned base image for every local and CI build target.
+include ../base-images.mk
+
 default: build
 
 build:
-	docker build -t $(REPO):$(TAG) \
-	    --build-arg BASE_IMAGE_TAG=$(BASE_IMAGE_TAG) \
+	docker build --build-arg BASE_IMAGE="$(BASE_IMAGE)" -t $(REPO):$(TAG) \
+	    \
 	    --build-arg VINYL_VER=$(VINYL_VER) ./
 
 buildx-build:
-	docker buildx build --platform $(PLATFORM) -t $(REPO):$(TAG) \
-	    --build-arg BASE_IMAGE_TAG=$(BASE_IMAGE_TAG) \
+	docker buildx build --build-arg BASE_IMAGE="$(BASE_IMAGE)" --platform $(PLATFORM) -t $(REPO):$(TAG) \
+	    \
 	    --build-arg VINYL_VER=$(VINYL_VER) \
 	    --load \
 	    ./
 
 buildx-push:
-	docker buildx build --push --platform $(PLATFORM) -t $(REPO):$(TAG) \
-	    --build-arg BASE_IMAGE_TAG=$(BASE_IMAGE_TAG) \
+	docker buildx build --build-arg BASE_IMAGE="$(BASE_IMAGE)" --push --platform $(PLATFORM) -t $(REPO):$(TAG) \
+	    \
 	    --build-arg VINYL_VER=$(VINYL_VER) \
 	    ./
 
