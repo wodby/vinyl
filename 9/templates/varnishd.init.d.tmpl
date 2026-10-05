@@ -6,7 +6,7 @@ if [[ -n "${DEBUG}" ]]; then
     set -x
 fi
 
-exec varnishd \
+exec vinyld \
     -F \
     -a :6081 \
     -T :6082 \

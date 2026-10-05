@@ -3,7 +3,7 @@
 # Accept legacy build arguments during the image revision transition.
 BASE_IMAGE_REVISION ?= $(BASE_IMAGE_STABILITY_TAG)
 
-VINYL_VER ?= 8.0.2
+VINYL_VER ?= 9.1.0
 VINYL_VER_MINOR = $(shell echo "${VINYL_VER}" | grep -oE '^[0-9]+\.[0-9]+')
 
 ALPINE_VER ?= 3.23

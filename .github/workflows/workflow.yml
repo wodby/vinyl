@@ -12,7 +12,7 @@ on:
   pull_request:
 
 env:
-  VINYL80: '8.0.2'
+  VINYL91: '9.1.0'
   VINYL60: '6.0.18'
   
   BASE_IMAGE_REVISION: r2
@@ -27,7 +27,7 @@ jobs:
         run: |
           cat << 'EOF' > versions.json
           [
-            {"key": "vinyl80", "version": "${{ env.VINYL80 }}", "workdir": "8", "latest": "latest", "latest_major": "latest-major"},
+            {"key": "vinyl91", "version": "${{ env.VINYL91 }}", "workdir": "9", "latest": "latest", "latest_major": "latest-major"},
             {"key": "vinyl60", "version": "${{ env.VINYL60 }}", "workdir": "6", "latest": "", "latest_major": ""}
           ]
           EOF
