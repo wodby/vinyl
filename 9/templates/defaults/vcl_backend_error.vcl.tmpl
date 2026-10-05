@@ -1,7 +1,7 @@
 # In the event of an error, show friendlier messages.
 sub vcl_backend_error {
   set beresp.http.Content-Type = "text/html; charset=utf-8";
-  synthetic ({"
+  set beresp.body = {"
 <html>
 <head>
     <title>Not Found</title>
@@ -17,6 +17,6 @@ sub vcl_backend_error {
 <p>The page you requested is temporarily unavailable.</p>
 </body>
 </html>
-"});
+"};
   return (deliver);
 }

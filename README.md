@@ -23,9 +23,9 @@
 
 ## Docker Images
 
-Use image revision tags such as `wodby/vinyl:8-rN` to select a Wodby image revision.
+Use image revision tags such as `wodby/vinyl:9-rN` to select a Wodby image revision.
 Major and minor tags use the repository release number, starting at `r0`. Full-version tags such as
-`wodby/vinyl:8.0.2-r0` start at `r0` for each exact upstream version.
+`wodby/vinyl:9.1.0-r0` start at `r0` for each exact upstream version.
 Every published versioned revision tag has a matching annotated Git tag pointing to its release commit.
 Existing tags remain available after support for their major or minor version ends.
 See [release tags](https://github.com/wodby/vinyl/tags) for available revisions and the [image revision policy](https://github.com/wodby/images#image-revisions) for upgrade guidance.
@@ -43,8 +43,24 @@ All images built for `linux/amd64` and `linux/arm64`
 
 Supported tags and respective `Dockerfile` links:
 
-- `8.0`, `8`, `latest` [_(Dockerfile)_](https://github.com/wodby/vinyl/tree/master/8/Dockerfile)
+- `9.1`, `9`, `latest` [_(Dockerfile)_](https://github.com/wodby/vinyl/tree/master/9/Dockerfile)
 - `6.0`, `6` [_(Dockerfile)_](https://github.com/wodby/vinyl/tree/master/6/Dockerfile)
+
+### Upgrading from 8.0 to 9.1
+
+Varnish Cache was renamed to Vinyl Cache in version 9. The image keeps the same environment variables, ports,
+`/etc/varnish` configuration directory and `/var/lib/varnish` volume, so most setups need no changes. Check the following
+before upgrading:
+
+- Programs were renamed: `varnishd` is now `vinyld`, `varnishadm` is `vinyladm`, `varnishlog` is `vinyllog` and so on.
+  The old names still work in this image.
+- The `X-Varnish` response header is now `X-Vinyl`. The `Server` and `Via` headers report `Vinyl-Cache`.
+- Custom VCL must not use `synthetic()` or `beresp.storage_hint`: both were removed. Set `resp.body` or `beresp.body`
+  instead of calling `synthetic()`. `req.ttl` is deprecated in favour of `req.max_age`.
+- IPv4-mapped IPv6 addresses such as `::ffff:192.0.2.1` are now matched by ACLs as IPv4 addresses.
+
+See the upstream upgrade notes for [9.0](https://vinyl-cache.org/docs/9.0/whats-new/upgrading-9.0.html) and
+[9.1](https://vinyl-cache.org/docs/9.1/whats-new/upgrading-9.1.html).
 
 ## Environment Variables
 
@@ -188,22 +204,25 @@ VARNISH_STORAGE_CONDITION='beresp.http.x-cache-bin = "secondary"'
 
 ## Installed Modules
 
-| Module       | Varnish 6.0 | Varnish 8.0 |
-|--------------|-------------|-------------|
-| [geoip]      | 1.0.3       |             |
-| [geoip2]     |             | latest      |
-| [digest]     | 1.0.3       | 1.0.3       |
-| [cookie]     | 6.0 latest  | 0.27.0      |
-| [vsthrottle] | 6.0 latest  | 0.27.0      |
-| [header]     | 6.0 latest  | 0.27.0      |
-| [saintmode]  | 6.0 latest  | 0.27.0      |
-| [softpurge]  | 6.0 latest  | 0.27.0      |
-| [tcp]        | 6.0 latest  | 0.27.0      |
-| [var]        | 6.0 latest  | 0.27.0      |
-| [xkey]       | 6.0 latest  | 0.27.0      |
-| bodyaccess   | 6.0 latest  | 0.27.0      |
+| Module       | Varnish 6.0 | Vinyl 9.1 |
+|--------------|-------------|-----------|
+| [geoip]      | 1.0.3       |           |
+| [geoip2]     |             | latest    |
+| [digest]     | 1.0.3       | 1.1.1     |
+| [cookie]     | 6.0 latest  | built-in  |
+| [vsthrottle] | 6.0 latest  | 0.29.0    |
+| [header]     | 6.0 latest  | 0.29.0    |
+| [saintmode]  | 6.0 latest  | 0.29.0    |
+| [softpurge]  | 6.0 latest  |           |
+| [tcp]        | 6.0 latest  | 0.29.0    |
+| [var]        | 6.0 latest  | 0.29.0    |
+| [xkey]       | 6.0 latest  | 0.29.0    |
+| bodyaccess   | 6.0 latest  | 0.29.0    |
+| accept       |             | 0.29.0    |
+| str          |             | 0.29.0    |
 
-Modules can be imported as `$VARNISH_IMPORT_MODULES=xkey,softpurge`.
+Modules can be imported as `$VARNISH_IMPORT_MODULES=xkey,header`. On Vinyl 9.1 use the built-in `purge` module
+instead of `softpurge`.
 
 ## Default Behaviour
 

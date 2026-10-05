@@ -57,10 +57,15 @@ RUN set -ex; \
         rsync \
         xz-dev; \
     \
-    varnish_url="https://vinyl-cache.org/downloads/varnish-${VINYL_VER}.tgz"; \
-    wget -qO- "${varnish_url}" | tar xz -C /tmp/; \
-    cd /tmp/varnish-*; \
+    vinyl_url="https://vinyl-cache.org/downloads/vinyl-cache-${VINYL_VER}.tgz"; \
+    wget -qO- "${vinyl_url}" | tar xz -C /tmp/; \
+    cd /tmp/vinyl-cache-*; \
     mkdir -p /tmp/pkg; \
+    \
+    # musl does not define ssize_t through the headers this file includes. \
+    sed -i 's|^#include "vapi/vsm.h"|#include <sys/types.h>\n&|' bin/vinyltest/vtc_vsm.c; \
+    # This test expects glibc's wording of a getopt error message. \
+    rm bin/vinyltest/tests/u00022.vtc; \
     \
     ./configure \
 		--prefix=/usr \
@@ -68,6 +73,7 @@ RUN set -ex; \
 		--mandir=/usr/share/man \
 		--infodir=/usr/share/info \
 		--localstatedir=/var/lib \
+		--with-statedir=/var/lib/varnish \
         --with-unwind \
 		--without-jemalloc; \
     \
@@ -75,8 +81,8 @@ RUN set -ex; \
     make -j "$(nproc)" check VERBOSE=1; \
     make DESTDIR=/tmp/pkg install; \
     \
-    mkdir -p /usr/share/varnish; \
-    mv LICENSE /usr/share/varnish/; \
+    mkdir -p /tmp/pkg/usr/share/vinyl-cache; \
+    mv LICENSE /tmp/pkg/usr/share/vinyl-cache/; \
     \
     pkgdir="/tmp/pkg"; \
     binfiles=$(scanelf -R "$pkgdir" | grep ET_DYN | sed "s:$pkgdir\/::g" | sed "s:ET_DYN ::g"); \
@@ -102,7 +108,7 @@ RUN set -ex; \
     cd /tmp/pkg; \
     libdirs=usr/; \
     [ -d lib/ ] && libdirs="lib/ $libdirs"; \
-    for i in usr/include/* usr/lib/pkgconfig/varnish* usr/share/aclocal/varnish* \
+    for i in usr/include/* usr/lib/pkgconfig/vinyl* usr/share/aclocal/vinyl* \
             usr/share/gettext usr/bin/*-config \
             usr/share/vala/vapi usr/share/gir-[0-9]* \
             usr/share/qt*/mkspecs \
@@ -123,8 +129,13 @@ RUN set -ex; \
     \
     rsync -a --links /tmp/pkg/ /; \
     \
+    # Vinyl Cache 9 renamed its programs; keep the Varnish names working. \
+    for f in /usr/bin/vinyl* /usr/sbin/vinyl*; do \
+        ln -s "${f##*/}" "${f%/*}/varnish${f##*/vinyl}"; \
+    done; \
+    \
     gunzip /usr/share/GeoIP/GeoLite2-Country.mmdb.gz; \
-    git clone --depth 1 -b main --single-branch https://github.com/varnishcache-friends/libvmod-geoip2 /tmp/libvmod-geoip2; \
+    git clone --depth 1 -b devel --single-branch https://github.com/varnishcache-friends/libvmod-geoip2 /tmp/libvmod-geoip2; \
     cd /tmp/libvmod-geoip2; \
 #    wget -qP /usr/share/GeoIP http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz; \
     ./autogen.sh; \
@@ -133,19 +144,26 @@ RUN set -ex; \
     make install; \
     make -j "$(nproc)" check VERBOSE=1; \
     \
-    libvmod_digest_ver="1.0.3"; \
+    libvmod_digest_ver="1.1.1"; \
     libvmod_digest_url="https://github.com/varnish/libvmod-digest/archive/libvmod-digest-${libvmod_digest_ver}.tar.gz"; \
     wget -qO- "${libvmod_digest_url}" | tar xz -C /tmp/; \
     cd /tmp/libvmod-digest-*; \
+    # The release declares Varnish 9.1 only; build and test it against Vinyl Cache. \
+    sed -i 's/datarootdir varnishapi/datarootdir vinylapi/' autogen.sh; \
+    sed -i 's/VCACHE_REQUIRE(\[\[varnish\], \[9.1.0\]\])/VCACHE_REQUIRE([[vinyl], [9.1.0]])/' configure.ac; \
+    grep -q 'VCACHE_REQUIRE(\[\[vinyl\]' configure.ac; \
+    sed -i 's/^varnish v/vinyl v/' src/tests/*.vtc; \
     ./autogen.sh; \
     ./configure; \
     make; \
     make install; \
     make -j "$(nproc)" check VERBOSE=1; \
     \
-    varnish_modules_ver="0.27.0"; \
+    varnish_modules_ver="0.29.0"; \
     wget -qO- "https://github.com/varnish/varnish-modules/releases/download/${varnish_modules_ver}/varnish-modules-${varnish_modules_ver}.tar.gz" | tar xz -C /tmp/; \
     cd /tmp/varnish-modules*; \
+    # One test still starts the server under its Varnish name. \
+    sed -i 's/^varnish v/vinyl v/' src/tests/vsthrottle/test07.vtc; \
     ./configure; \
     make; \
     make install; \
@@ -160,6 +178,9 @@ RUN set -ex; \
 	    /etc/varnish \
 	    /etc/varnish/defaults \
 	    /etc/varnish/includes; \
+    \
+    # VCL stays in /etc/varnish; the Vinyl Cache default path points to it. \
+    ln -s /etc/varnish /etc/vinyl-cache; \
     \
     mkdir -p /etc/init.d/; \
     touch /etc/varnish/preset.vcl /etc/init.d/varnishd /etc/varnish/secret /etc/varnish/default.vcl; \
