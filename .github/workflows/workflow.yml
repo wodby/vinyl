@@ -15,7 +15,7 @@ env:
   VINYL91: '9.1.0'
   VINYL60: '6.0.18'
   
-  BASE_IMAGE_REVISION: r2
+  BASE_IMAGE_REVISION: r3
 
 jobs:
   setup:
