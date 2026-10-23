@@ -209,7 +209,7 @@ VARNISH_STORAGE_CONDITION='beresp.http.x-cache-bin = "secondary"'
 | [geoip]      | 1.0.3       |           |
 | [geoip2]     |             | latest    |
 | [digest]     | 1.0.3       | 1.1.1     |
-| [cookie]     | 6.0 latest  | built-in  |
+| [cookie]     | 6.0 latest  | [built-in][cookie-builtin] |
 | [vsthrottle] | 6.0 latest  | 0.29.0    |
 | [header]     | 6.0 latest  | 0.29.0    |
 | [saintmode]  | 6.0 latest  | 0.29.0    |
@@ -221,7 +221,7 @@ VARNISH_STORAGE_CONDITION='beresp.http.x-cache-bin = "secondary"'
 | accept       |             | 0.29.0    |
 | str          |             | 0.29.0    |
 
-Modules can be imported as `$VARNISH_IMPORT_MODULES=xkey,header`. On Vinyl 9.1 use the built-in `purge` module
+Modules can be imported as `$VARNISH_IMPORT_MODULES=xkey,header`. On Vinyl 9.1 use the built-in [`purge`][purge] module
 instead of `softpurge`.
 
 ## Default Behaviour
@@ -363,14 +363,16 @@ Deploy Vinyl container to your own server via [![Wodby](https://www.google.com/s
 [geoip]: https://github.com/varnish/libvmod-geoip
 [geoip2]: https://github.com/varnishcache-friends/libvmod-geoip2
 [digest]: https://github.com/varnish/libvmod-digest
-[cookie]: https://github.com/varnish/varnish-modules/blob/master/docs/vmod_cookie.rst
-[vsthrottle]: https://github.com/varnish/varnish-modules/blob/master/docs/vmod_cookie.rst
-[header]: https://github.com/varnish/varnish-modules/blob/master/docs/vmod_header.rst
-[saintmode]: https://github.com/varnish/varnish-modules/blob/master/docs/vmod_saintmode.rst
-[softpurge]: https://github.com/varnish/varnish-modules/blob/master/docs/vmod_softpurge.rst
-[tcp]: https://github.com/varnish/varnish-modules/blob/master/docs/vmod_tcp.rst
-[var]: https://github.com/varnish/varnish-modules/blob/master/docs/vmod_var.rst
-[xkey]: https://github.com/varnish/varnish-modules/blob/master/docs/vmod_xkey.rst
+[cookie-builtin]: https://vinyl-cache.org/docs/9.1/reference/vmod_cookie.html
+[cookie]: https://github.com/varnish/varnish-modules/blob/6.0/src/vmod_cookie.vcc
+[vsthrottle]: https://github.com/varnish/varnish-modules/blob/0.29.0/src/vmod_vsthrottle.vcc
+[header]: https://github.com/varnish/varnish-modules/blob/0.29.0/src/vmod_header.vcc
+[saintmode]: https://github.com/varnish/varnish-modules/blob/0.29.0/src/vmod_saintmode.vcc
+[purge]: https://vinyl-cache.org/docs/9.1/reference/vmod_purge.html
+[softpurge]: https://github.com/varnish/varnish-modules/blob/6.0/src/vmod_softpurge.vcc
+[tcp]: https://github.com/varnish/varnish-modules/blob/0.29.0/src/vmod_tcp.vcc
+[var]: https://github.com/varnish/varnish-modules/blob/0.29.0/src/vmod_var.vcc
+[xkey]: https://github.com/varnish/varnish-modules/blob/0.29.0/src/vmod_xkey.vcc
 
 ## Building with pinned base images
 
