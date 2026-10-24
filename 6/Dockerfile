@@ -14,6 +14,9 @@ ENV VINYL_VER="${VINYL_VER}"
 COPY patches /tmp/patches/
 COPY GeoIP.dat.gz /usr/share/GeoIP/
 
+# Refresh inherited security fixes when rebuilding this image.
+RUN apk upgrade --no-cache
+
 RUN set -ex; \
     \
     addgroup -g 1000 -S varnish; \

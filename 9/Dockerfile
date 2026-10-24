@@ -13,6 +13,9 @@ ENV VINYL_VER="${VINYL_VER}"
 
 COPY GeoLite2-Country.mmdb.gz /usr/share/GeoIP/
 
+# Refresh inherited security fixes when rebuilding this image.
+RUN apk upgrade --no-cache
+
 RUN set -ex; \
     \
     addgroup -g 1000 -S varnish; \
